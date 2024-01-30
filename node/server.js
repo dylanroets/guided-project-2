@@ -18,3 +18,13 @@ app.get("/films", (req, res) => {
     }
   });
 });
+
+app.get("/planets", (req, res) => {
+  dao.findAllPlanets((planets) => {
+    if (!planets) {
+      res.status(404).end();
+    } else {
+      res.send(planets);
+    }
+  });
+});

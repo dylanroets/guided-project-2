@@ -96,3 +96,26 @@ app.get("/characters/:id", (req, res) => {
     }
   });
 });
+
+//GET All characters in a Film
+app.get("/characters/:id/films", (req, res) => {
+  mongo_dao.findCharactersFilms(req.params.id, (films) => {
+    if (!films) {
+      res.status(404).end();
+    } else {
+      res.send(films);
+    }
+  });
+});
+
+//GET All planets in a Films
+app.get("/planets/:id/films", (req, res) => {
+  mongo_dao.findPlanetFilms(req.params.id, (films) => {
+    if (!films) {
+      res.status(404).end();
+    } else {
+      res.send(films);
+    }
+  });
+});
+

@@ -74,3 +74,24 @@ module.exports.findCharacter = function (id, callback) {
   let dataPromise = characters_collection.findOne({ id: +id });
   dataPromise.then((character) => callback(character));
 };
+
+// retrieve character in films
+module.exports.findCharactersFilms = function (id, callback) {
+  let dataPromise = films_characters_collection
+    .find({ character_id: +id })
+    .toArray();
+  dataPromise.then((films) => callback(films));
+};
+
+
+// retrieve planets in films
+module.exports.findPlanetFilms = function (id, callback) {
+  let dataPromise = films_planets_collection.find({ planet_id: +id }).toArray();
+  dataPromise.then((films) => callback(films));
+};
+
+// retrieve planets for characters
+module.exports.findPlanetCharacters = function (id, callback) {
+  let dataPromise = planets_characters_collection.find({ planet_id: +id }).toArray();
+  dataPromise.then((characters) => callback(characters));
+};

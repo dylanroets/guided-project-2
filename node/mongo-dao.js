@@ -31,6 +31,12 @@ module.exports.findAllFilms = function (callback) {
   dataPromise.then((films) => callback(films));
 };
 
+// retrieve films by list of ids
+module.exports.findFilmsByIds = function (ids, callback) {
+  let dataPromise = film_collection.find({ id: { $in: ids } }).toArray();
+  dataPromise.then((films) => callback(films));
+};
+
 // retrieve one film
 module.exports.findFilm = function (id, callback) {
   let dataPromise = film_collection.findOne({ id: +id });
@@ -57,6 +63,12 @@ module.exports.findAllPlanets = function (callback) {
   dataPromise.then((planets) => callback(planets));
 };
 
+// retrieve planets by list of ids
+module.exports.findPlanetsByIds = function (ids, callback) {
+  let dataPromise = planets_collection.find({ id: { $in: ids } }).toArray();
+  dataPromise.then((planets) => callback(planets));
+};
+
 // retrieve one planets
 module.exports.findPlanet = function (id, callback) {
   let dataPromise = planets_collection.findOne({ id: +id });
@@ -66,6 +78,12 @@ module.exports.findPlanet = function (id, callback) {
 // retrieve all Characters
 module.exports.findAllCharacters = function (callback) {
   let dataPromise = characters_collection.find({}).toArray();
+  dataPromise.then((characters) => callback(characters));
+};
+
+// retrieve characters by list of ids
+module.exports.findCharactersByIds = function (ids, callback) {
+  let dataPromise = characters_collection.find({ id: { $in: ids } }).toArray();
   dataPromise.then((characters) => callback(characters));
 };
 
@@ -83,7 +101,6 @@ module.exports.findCharactersFilms = function (id, callback) {
   dataPromise.then((films) => callback(films));
 };
 
-
 // retrieve planets in films
 module.exports.findPlanetFilms = function (id, callback) {
   let dataPromise = films_planets_collection.find({ planet_id: +id }).toArray();
@@ -91,7 +108,8 @@ module.exports.findPlanetFilms = function (id, callback) {
 };
 
 // retrieve planets for characters
+//Get a list of characters homeworld
 module.exports.findPlanetCharacters = function (id, callback) {
-  let dataPromise = planets_characters_collection.find({ planet_id: +id }).toArray();
+  let dataPromise = characters_collection.find({ homeworld: +id }).toArray();
   dataPromise.then((characters) => callback(characters));
 };

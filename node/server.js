@@ -37,7 +37,16 @@ app.get("/films/:id/characters", (req, res) => {
     if (!characters) {
       res.status(404).end();
     } else {
-      res.send(characters);
+      const characters_array = characters.map(
+        (character) => +character.character_id
+      );
+      mongo_dao.findCharactersByIds(characters_array, (characters_details) => {
+        if (!characters_details) {
+          res.status(404).end();
+        } else {
+          res.send(characters_details);
+        }
+      });
     }
   });
 });
@@ -48,7 +57,14 @@ app.get("/films/:id/planets", (req, res) => {
     if (!planets) {
       res.status(404).end();
     } else {
-      res.send(planets);
+      const planets_array = planets.map((planet) => +planet.planet_id);
+      mongo_dao.findPlanetsByIds(planets_array, (planets_details) => {
+        if (!planets_details) {
+          res.status(404).end();
+        } else {
+          res.send(planets_details);
+        }
+      });
     }
   });
 });
@@ -97,25 +113,49 @@ app.get("/characters/:id", (req, res) => {
   });
 });
 
-//GET All characters in a Film
+//GET All Film a character was in
 app.get("/characters/:id/films", (req, res) => {
   mongo_dao.findCharactersFilms(req.params.id, (films) => {
     if (!films) {
       res.status(404).end();
     } else {
-      res.send(films);
+      const films_array = films.map((film) => +film.film_id);
+      mongo_dao.findFilmsByIds(films_array, (film_details) => {
+        if (!film_details) {
+          res.status(404).end();
+        } else {
+          res.send(film_details);
+        }
+      });
     }
   });
 });
 
-//GET All planets in a Films
+//GET All Films where a planet was in
 app.get("/planets/:id/films", (req, res) => {
   mongo_dao.findPlanetFilms(req.params.id, (films) => {
     if (!films) {
       res.status(404).end();
     } else {
-      res.send(films);
+      const films_array = films.map((film) => +film.film_id);
+      mongo_dao.findFilmsByIds(films_array, (film_details) => {
+        if (!film_details) {
+          res.status(404).end();
+        } else {
+          res.send(film_details);
+        }
+      });
     }
   });
 });
 
+//GET All the characters whose homeworld is id
+app.get("/planets/:id/characters", (req, res) => {
+  mongo_dao.findPlanetCharacters(req.params.id, (characters) => {
+    if (!characters) {
+      res.status(404).end();
+    } else {
+      res.send(characters);
+    }
+  });
+});
